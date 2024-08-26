@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customized T-Shirt Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .receipt {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Customized T-Shirt Order Form</h1>
+    <form id="orderForm" onsubmit="return processOrder(event)">
+
+        <fieldset>
+            <legend>Customize Your T-Shirt</legend>
+
+            <label for="tagline">Tagline on the Shirt:</label>
+            <input type="text" id="tagline" name="tagline" placeholder="Enter your tagline" required pattern=".{1,50}" title="Tagline must be between 1 to 50 characters.">
+            <br><br>
+
+            <label for="color">Color:</label>
+            <select id="color" name="color" required>
+                <option value="">Select a color</option>
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="black">Black</option>
+                <option value="white">White</option>
+            </select>
+            <br><br>
+
+            <label for="size">Size:</label>
+            <select id="size" name="size" required>
+                <option value="">Select a size</option>
+                <option value="s">Small</option>
+                <option value="m">Medium</option>
+                <option value="l">Large</option>
+                <option value="xl">Extra Large</option>
+                <option value="xxl">Double Extra Large</option>
+            </select>
+            <br><br>
+
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" min="1" max="100" required>
+            <br><br>
+
+            <label for="delivery-date">Delivery Date:</label>
+            <input type="date" id="delivery-date" name="delivery_date" required>
+            <br><br>
+        </fieldset>
+
+        <fieldset>
+            <legend>Delivery Details</legend>
+
+            <label for="recipient-name">Recipient's Name:</label>
+            <input type="text" id="recipient-name" name="recipient_name" placeholder="Enter recipient's name" required>
+            <br><br>
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" placeholder="Enter delivery address" rows="4" required></textarea>
+            <br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            <br><br>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required pattern="\d{10}" title="Phone number must be 10 digits.">
+            <br><br>
+        </fieldset>
+
+        <label for="comments">Additional Comments:</label>
+        <textarea id="comments" name="comments" placeholder="Enter any additional comments or special instructions" rows="4"></textarea>
+        <br><br>
+
+        <button type="submit">Place Order</button>
+        <button type="reset">Reset Form</button>
+    </form>
+
+    <div class="receipt" id="receipt"></div>
+
+    <script>
+        // Person Class
+        class Person {
+            constructor(name, address, email, phone) {
+                this.name = name;
+                this.address = address;
+                this.email = email;
+                this.phone = phone;
+            }
+
+            printDetails() {
+                return `Name: ${this.name}, Address: ${this.address}, Email: ${this.email}, Phone: ${this.phone}`;
+            }
+        }
+
+        // Student Class
+        class Student extends Person {
+            constructor(name, address, email, phone, rollNo) {
+                super(name, address, email, phone);
+                if (rollNo <= 0) throw new Error("Roll number must be greater than zero.");
+                this.rollNo = rollNo;
+            }
+
+            printDetails() {
+                return `${super.printDetails()}, Roll No: ${this.rollNo}`;
+            }
+        }
+
+        // JavaScript Validation and Order Processing
+        function validatePhoneNumber(phone) {
+            const phonePattern = /^\d{10}$/;
+            return phonePattern.test(phone);
+        }
+
+        function processOrder(event) {
+            event.preventDefault();
+
+            const tagline = document.getElementById('tagline').value;
+            const quantity = document.getElementById('quantity').value;
+            const deliveryDate = document.getElementById('delivery-date').value;
+            const recipientName = document.getElementById('recipient-name').value;
+            const address = document.getElementById('address').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+
+            if (!validatePhoneNumber(phone)) {
+                alert("Please enter a valid 10-digit phone number.");
+                return false;
+            }
+
+            // Create a Person object
+            const person = new Person(recipientName, address, email, phone);
+            console.log(person.printDetails());
+
+            // Create a Student object (example)
+            try {
+                const student = new Student(recipientName, address, email, phone, quantity);
+                console.log(student.printDetails());
+            } catch (error) {
+                alert(error.message);
+                return false;
+            }
+
+            // Generate receipt
+            const receipt = document.getElementById('receipt');
+            const date = new Date();
+            receipt.innerHTML = `
+                <h2>Order Receipt</h2>
+                <p>Date: ${date.toLocaleDateString()}</p>
+                <p>Tagline: ${tagline}</p>
+                <p>Quantity: ${quantity}</p>
+                <p>Delivery Date: ${deliveryDate}</p>
+                <p>Recipient: ${recipientName}</p>
+                <p>Address: ${address}</p>
+                <p>Email: ${email}</p>
+                <p>Phone: ${phone}</p>
+            `;
+            receipt.style.display = 'block';
+
+            return false; // Prevent form submission
+        }
+    </script>
+
+</body>
+</html>
