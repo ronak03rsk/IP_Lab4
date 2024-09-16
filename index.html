@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,87 +8,140 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin: 20px 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        fieldset {
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+        legend {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #ff7e5f;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            background-color: #ff7e5f;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #ff6f61;
         }
         .receipt {
-            border: 1px solid #ccc;
-            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
             margin-top: 20px;
+            background-color: #f9f9f9;
             display: none;
+        }
+        .receipt h2 {
+            margin-top: 0;
+            color: #ff7e5f;
         }
     </style>
 </head>
 <body>
 
-    <h1>Customized T-Shirt Order Form</h1>
-    <form id="orderForm" onsubmit="return processOrder(event)">
+    <div class="container">
+        <h1>Customized T-Shirt Order Form</h1>
+        <form id="orderForm" onsubmit="return processOrder(event)">
+            <fieldset>
+                <legend>Customize Your T-Shirt</legend>
+                <label for="tagline">Tagline on the Shirt:</label>
+                <input type="text" id="tagline" name="tagline" placeholder="Enter your tagline" required pattern=".{1,50}" title="Tagline must be between 1 to 50 characters.">
+                
+                <label for="color">Color:</label>
+                <select id="color" name="color" required>
+                    <option value="">Select a color</option>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="black">Black</option>
+                    <option value="white">White</option>
+                </select>
+                
+                <label for="size">Size:</label>
+                <select id="size" name="size" required>
+                    <option value="">Select a size</option>
+                    <option value="s">Small</option>
+                    <option value="m">Medium</option>
+                    <option value="l">Large</option>
+                    <option value="xl">Extra Large</option>
+                    <option value="xxl">Double Extra Large</option>
+                </select>
+                
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" min="1" max="100" required>
+                
+                <label for="delivery-date">Delivery Date:</label>
+                <input type="date" id="delivery-date" name="delivery_date" required>
+            </fieldset>
 
-        <fieldset>
-            <legend>Customize Your T-Shirt</legend>
+            <fieldset>
+                <legend>Delivery Details</legend>
+                <label for="recipient-name">Recipient's Name:</label>
+                <input type="text" id="recipient-name" name="recipient_name" placeholder="Enter recipient's name" required>
+                
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" placeholder="Enter delivery address" rows="4" required></textarea>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required pattern="\d{10}" title="Phone number must be 10 digits.">
+            </fieldset>
 
-            <label for="tagline">Tagline on the Shirt:</label>
-            <input type="text" id="tagline" name="tagline" placeholder="Enter your tagline" required pattern=".{1,50}" title="Tagline must be between 1 to 50 characters.">
-            <br><br>
+            <label for="comments">Additional Comments:</label>
+            <textarea id="comments" name="comments" placeholder="Enter any additional comments or special instructions" rows="4"></textarea>
 
-            <label for="color">Color:</label>
-            <select id="color" name="color" required>
-                <option value="">Select a color</option>
-                <option value="red">Red</option>
-                <option value="blue">Blue</option>
-                <option value="green">Green</option>
-                <option value="black">Black</option>
-                <option value="white">White</option>
-            </select>
-            <br><br>
+            <button type="submit">Place Order</button>
+            <button type="reset">Reset Form</button>
+        </form>
 
-            <label for="size">Size:</label>
-            <select id="size" name="size" required>
-                <option value="">Select a size</option>
-                <option value="s">Small</option>
-                <option value="m">Medium</option>
-                <option value="l">Large</option>
-                <option value="xl">Extra Large</option>
-                <option value="xxl">Double Extra Large</option>
-            </select>
-            <br><br>
-
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" name="quantity" min="1" max="100" required>
-            <br><br>
-
-            <label for="delivery-date">Delivery Date:</label>
-            <input type="date" id="delivery-date" name="delivery_date" required>
-            <br><br>
-        </fieldset>
-
-        <fieldset>
-            <legend>Delivery Details</legend>
-
-            <label for="recipient-name">Recipient's Name:</label>
-            <input type="text" id="recipient-name" name="recipient_name" placeholder="Enter recipient's name" required>
-            <br><br>
-
-            <label for="address">Address:</label>
-            <textarea id="address" name="address" placeholder="Enter delivery address" rows="4" required></textarea>
-            <br><br>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
-            <br><br>
-
-            <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required pattern="\d{10}" title="Phone number must be 10 digits.">
-            <br><br>
-        </fieldset>
-
-        <label for="comments">Additional Comments:</label>
-        <textarea id="comments" name="comments" placeholder="Enter any additional comments or special instructions" rows="4"></textarea>
-        <br><br>
-
-        <button type="submit">Place Order</button>
-        <button type="reset">Reset Form</button>
-    </form>
-
-    <div class="receipt" id="receipt"></div>
+        <div class="receipt" id="receipt"></div>
+    </div>
 
     <script>
         // Person Class
@@ -174,4 +228,3 @@
 
 </body>
 </html>
-
